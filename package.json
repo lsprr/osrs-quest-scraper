@@ -1,0 +1,23 @@
+{
+  "name": "osrs-quest-scraper",
+  "version": "1.0.0",
+  "description": "A node.js web scraper for obtaining data from the Old School Runescape (OSRS) Quests List.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lsprr/osrs-quest-scraper.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lsprr/osrs-quest-scraper/issues"
+  },
+  "homepage": "https://github.com/lsprr/osrs-quest-scraper#readme",
+  "dependencies": {
+    "puppeteer": "^20.3.0"
+  }
+}
