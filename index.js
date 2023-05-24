@@ -1,9 +1,9 @@
 import {startBrowser} from "./browser.js";
-import scraperController from "./pageController.js";
+import {runScraping} from "./pageController.js";
 
 async function scrapeWebsite() {
     let browserInstance = await startBrowser();
-    await scraperController(browserInstance);
+    await runScraping(browserInstance);
 }
 
 scrapeWebsite();

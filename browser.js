@@ -1,18 +1,9 @@
 import puppeteer from "puppeteer";
 
 async function startBrowser() {
-    let browser;
-    try {
-        console.log("Starting the browser...");
-        browser = await puppeteer.launch({
-            headless: false,
-            args: ["--disable-setuid-sandbox"],
-            'ignoreHTTPSErrors': true
-        });
-    } catch (err) {
-        console.log("Error starting the browser => : ", err);
-    }
+    console.log("Opening the browser...");
+    let browser = await puppeteer.launch({ headless: true });
     return browser;
 }
 
-export {startBrowser};
+export { startBrowser };
