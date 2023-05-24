@@ -3,9 +3,10 @@
   "type": "module",
   "version": "1.0.0",
   "description": "A node.js web scraper for obtaining data from the Old School Runescape (OSRS) Quests List.",
-  "main": "index.js",
+  "main": "scraper/index.js",
   "scripts": {
-    "start": "node index.js"
+    "scraper": "node scraper/index.js",
+    "server": "node server/server.js",
   },
   "repository": {
     "type": "git",

@@ -1,9 +1,15 @@
 import pageScraper from './pageScraper.js';
-import fs from 'fs';
-import { promisify } from 'util';
+import fs from 'fs.js';
+import { promisify } from 'util.js';
 
 const writeFile = promisify(fs.writeFile);
-const OUTPUT_FILE = "data.json";
+const dir = './data';
+
+if (!fs.existsSync(dir)){
+    fs.mkdirSync(dir, { recursive: true });
+}
+
+const OUTPUT_FILE = "./data/data.json";
 
 async function scrapeAll(browserInstance) {
     // Open a new browser instance

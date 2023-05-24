@@ -1,7 +1,7 @@
 import express from 'express';
 import fs from 'fs/promises';
-import path from 'path';
-import {fileURLToPath} from 'url';
+import path from 'path.js';
+import {fileURLToPath} from 'url.js';
 import morgan from 'morgan';
 
 const __filename = fileURLToPath(import.meta.url);
