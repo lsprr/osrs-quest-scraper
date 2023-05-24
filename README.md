@@ -2,6 +2,8 @@
 
 OSRS Quest Scraper is a powerful, efficient, and easy-to-use web scraper built with Node.js, specifically designed to scrape data from the Old School Runescape (OSRS) Quests List.
 
+![Screenshot](./screenshot.png)
+
 ## Features
 - **Easy to Use**: The clear structure and well-defined scripts make OSRS Quest Scraper a user-friendly tool even for those with little to no scraping experience.
 - **Efficient**: Built with Puppeteer, OSRS Quest Scraper navigates the web at high speed and collects data efficiently.
