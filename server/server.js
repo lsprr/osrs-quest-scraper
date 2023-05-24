@@ -1,7 +1,7 @@
 import express from 'express';
 import fs from 'fs/promises';
-import path from 'path.js';
-import {fileURLToPath} from 'url.js';
+import path from 'path';
+import {fileURLToPath} from 'url';
 import morgan from 'morgan';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -14,7 +14,7 @@ app.use(morgan('combined'));
 
 app.get('/api/quests', async (req, res, next) => {
     try {
-        const data = await fs.readFile(path.join(__dirname, 'data.json'));
+        const data = await fs.readFile(path.join(__dirname, '..', 'data/data.json'));
         const quests = JSON.parse(data);
         res.json(quests);
     } catch (err) {
