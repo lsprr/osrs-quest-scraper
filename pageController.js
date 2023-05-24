@@ -1,4 +1,5 @@
 import pageScraper from './pageScraper.js';
+import fs from 'fs';
 
 async function scrapeAll(browserInstance) {
     // Open a new browser instance
@@ -12,7 +13,17 @@ async function scrapeAll(browserInstance) {
 async function runScraping(browserInstance) {
     // Get the data
     const data = await scrapeAll(browserInstance);
-    console.log(data);
+    // Save the data as JSON
+    saveTheDataAsJSON(data);
 }
 
-export { runScraping };
+function saveTheDataAsJSON(data) {
+    fs.writeFile("data.json", JSON.stringify(data), 'utf8', function (err) {
+        if (err) {
+            return console.log(err);
+        }
+        console.log("The data has been scraped and saved successfully!");
+    });
+}
+
+export {runScraping};
