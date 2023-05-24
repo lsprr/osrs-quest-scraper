@@ -1,5 +1,9 @@
 import pageScraper from './pageScraper.js';
 import fs from 'fs';
+import { promisify } from 'util';
+
+const writeFile = promisify(fs.writeFile);
+const OUTPUT_FILE = "data.json";
 
 async function scrapeAll(browserInstance) {
     // Open a new browser instance
@@ -14,16 +18,18 @@ async function runScraping(browserInstance) {
     // Get the data
     const data = await scrapeAll(browserInstance);
     // Save the data as JSON
-    saveTheDataAsJSON(data);
+    await saveTheDataAsJSON(data);
 }
 
-function saveTheDataAsJSON(data) {
-    fs.writeFile("data.json", JSON.stringify(data), 'utf8', function (err) {
-        if (err) {
-            return console.log(err);
-        }
-        console.log("The data has been scraped and saved successfully!");
-    });
+async function saveTheDataAsJSON(data) {
+    try {
+        await writeFile(OUTPUT_FILE, JSON.stringify(data, null, 4), 'utf8');
+        console.log(`The data has been scraped and saved successfully in ${OUTPUT_FILE}!`);
+        process.exit(0);
+    } catch (err) {
+        console.error("Error while saving data: ", err);
+        process.exit(1);
+    }
 }
 
 export {runScraping};

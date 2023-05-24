@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 const scraperObject = {
     url: 'https://www.rsbee.com/quest-help',
     data: [],
@@ -23,11 +25,13 @@ const scraperObject = {
 
                 // Get the necessary data from the page
                 let quest = {};
-                quest['time'] = await getText(newPage, '.Customer_content > ul > li > p:first-of-type', 'Time:');
-                quest['required-quests'] = await getText(newPage, '.Customer_content > ul > li > p:nth-of-type(3)', 'Quests:');
-                quest['required-skills'] = await getText(newPage, '.Customer_content > ul > li > p:nth-of-type(4)', 'Skills:');
-                quest['reward'] = await getReward(newPage);
-                quest['questPoints'] = await getText(newPage, '.Customer_content > ul > li > p:last-of-type', 'Quest points gained upon completion:');
+                quest['id'] = uuidv4();
+                quest['title'] = await(getText(newPage, '.Product_Detailed_Title > h1'));
+                quest['time'] = await getStructuredText(newPage, 'Time:', 'N/A');
+                quest['required-quests'] = await getRequirementsAsArray(newPage, 'Quests:');
+                quest['required-skills'] = await getRequirementsAsArray(newPage, 'Skills:');
+                quest['reward'] = await getRewardAsArray(newPage);
+                quest['questPoints'] = await getStructuredText(newPage, 'Quest points gained upon completion:', 'N/A');
 
                 // Store the data
                 this.data.push(quest);
@@ -41,20 +45,53 @@ const scraperObject = {
 };
 
 // New function to remove the prefix and any extra spaces.
-async function getText(page, selector, prefix) {
-    let text = await page.$eval(selector, el => el.textContent);
-    return text.replace(prefix, '').trim();
+async function getText(page, selector) {
+    return await page.$eval(selector, el => el.textContent.trim());
 }
 
-// New function to handle multiple reward lines
-async function getReward(page) {
-    let elements = await page.$$eval('.Customer_content > ul > li > p', elements => elements.map(el => el.textContent));
+// New function to get structured text
+async function getStructuredText(page, prefix, defaultValue = '') {
+    try {
+        let elements = await page.$$eval('.Customer_content > ul > li > p', elements => elements.map(el => el.textContent));
+        let index = elements.findIndex(el => el.includes(prefix));
+        return index !== -1 ? elements[index].replace(prefix, '').trim() : defaultValue;
+    } catch {
+        return defaultValue;
+    }
+}
 
-    // Get the rewards text
-    let rewardIndex = elements.findIndex(el => el.includes('Reward:'));
-    let questPointsIndex = elements.findIndex(el => el.includes('Quest points gained upon completion:'));
+// New function to get quest requirements (skills, quests) as an array
+async function getRequirementsAsArray(page, prefix, defaultValue = []) {
+    try {
+        let elements = await page.$$eval('.Customer_content > ul > li > p', elements => elements.map(el => el.textContent));
+        let index = elements.findIndex(el => el.includes(prefix));
+        if (index !== -1) {
+            let values = elements[index].replace(prefix, '').trim();
+            // Split by comma and trim each element in the array
+            return values.split(',').map(value => value.trim());
+        } else {
+            return defaultValue;
+        }
+    } catch {
+        return defaultValue;
+    }
+}
 
-    return elements.slice(rewardIndex + 1, questPointsIndex).join('\n');
+// New function to handle multiple reward lines as an array
+async function getRewardAsArray(page, defaultValue = []) {
+    try {
+        let elements = await page.$$eval('.Customer_content > ul > li > p', elements => elements.map(el => el.textContent));
+        let rewardIndex = elements.findIndex(el => el.includes('Reward:'));
+        let questPointsIndex = elements.findIndex(el => el.includes('Quest points gained upon completion:'));
+
+        // If "Reward:" not found, return default value
+        if(rewardIndex === -1) return defaultValue;
+
+        // Slice the array and return as is, no need to join
+        return elements.slice(rewardIndex + 1, questPointsIndex).map(value => value.trim());
+    } catch {
+        return defaultValue;
+    }
 }
 
 export default scraperObject;

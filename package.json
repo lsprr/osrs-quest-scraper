@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/lsprr/osrs-quest-scraper#readme",
   "dependencies": {
-    "puppeteer": "^20.3.0"
+    "puppeteer": "^20.3.0",
+    "uuid": "^9.0.0"
   }
 }
