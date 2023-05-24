@@ -12,6 +12,14 @@ const port = process.env.PORT || 3000;
 
 app.use(morgan('combined'));
 
+app.get('/', async (req, res, next) => {
+    try {
+        res.redirect('/api/quests');
+    } catch (err) {
+        next(err);
+    }
+});
+
 app.get('/api/quests', async (req, res, next) => {
     try {
         const data = await fs.readFile(path.join(__dirname, '..', 'data/data.json'));
