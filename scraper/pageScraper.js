@@ -26,7 +26,7 @@ const scraperObject = {
                 // Get the necessary data from the page
                 let quest = {};
                 quest['id'] = uuidv4();
-                quest['title'] = await(getText(newPage, '.Product_Detailed_Title > h1'));
+                quest['title'] = await (getText(newPage, '.Product_Detailed_Title > h1'));
                 quest['time'] = await getStructuredText(newPage, 'Time:', 'N/A');
                 quest['required-quests'] = await getRequirementsAsArray(newPage, 'Quests:');
                 quest['required-skills'] = await getRequirementsAsArray(newPage, 'Skills:');
@@ -85,7 +85,7 @@ async function getRewardAsArray(page, defaultValue = []) {
         let questPointsIndex = elements.findIndex(el => el.includes('Quest points gained upon completion:'));
 
         // If "Reward:" not found, return default value
-        if(rewardIndex === -1) return defaultValue;
+        if (rewardIndex === -1) return defaultValue;
 
         // Slice the array and return as is, no need to join
         return elements.slice(rewardIndex + 1, questPointsIndex).map(value => value.trim());

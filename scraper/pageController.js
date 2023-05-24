@@ -5,8 +5,8 @@ import { promisify } from 'util.js';
 const writeFile = promisify(fs.writeFile);
 const dir = './data';
 
-if (!fs.existsSync(dir)){
-    fs.mkdirSync(dir, { recursive: true });
+if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, {recursive: true});
 }
 
 const OUTPUT_FILE = "./data/data.json";
@@ -38,4 +38,4 @@ async function saveTheDataAsJSON(data) {
     }
 }
 
-export {runScraping};
+export { runScraping };
