@@ -3,6 +3,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import morgan from 'morgan';
+import cors from "cors";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -11,6 +12,8 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(morgan('combined'));
+
+app.use(cors());
 
 app.get('/', async (req, res, next) => {
     try {
